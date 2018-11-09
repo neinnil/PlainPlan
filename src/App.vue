@@ -13,13 +13,29 @@ import User from './components/User.vue'
 import ProjSummary from './components/ProjSummary.vue'
 import Issue from './components/Issue.vue'
 
+var NotFoundPage = {
+	template: `<div> Page is not found.</div>`
+};
+const routes = [
+	{path:'/', component: ProjSummary},
+	{path:'/User', component: User},
+	{path:'/issues', component: Issue},
+	{path: '*', component: NotFoundPage},
+];
+
+const router = new VueRouter({
+	mode: 'history',
+	routes,
+});
+
 export default {
   name: 'app',
   components: {
 		User,
 		ProjSummary,
 		Issue,
-  }
+  },
+	routes,
 }
 </script>
 
