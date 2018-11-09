@@ -68,7 +68,6 @@ export default {
 	name: 'IssueView',
   components: {
 		IssueItem,
-		vuejsDatepicker,
   },
 	props: {
 		writer: {
@@ -77,9 +76,11 @@ export default {
 		},
 		project: {
 			type: Object,
-			default: {
-				code: '18si0100',
-				name: 'SPMS',
+			default () {
+				return {
+					code: '18si0100',
+					name: 'SPMS',
+				}
 			},
 		},
 	},

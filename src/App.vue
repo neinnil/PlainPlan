@@ -1,41 +1,37 @@
 <template>
   <div id="app">
-    <!-- img alt="Vue logo" src="./assets/logo.png" //-->
-    <!-- HelloWorld msg="Welcome to Your Vue.js App"/ //-->
-		<User />
-		<ProjSummary />
-		<Issue />
+			<div class="ttable">
+				<div class="tbrow">
+					<div id="sidemenu" class="tbcell fleft" style="max-width:20%;border:solid 1px red;min-width:10em;">
+						<ul>
+							<li><router-link to="/">Home</router-link></li>
+							<li><router-link to="/index.html">Summary</router-link></li>
+							<li><router-link to="/User">User</router-link></li>
+							<li><router-link to="/Issue">Issue</router-link></li>
+							<li><router-link to="/WorkNote">WorkNote</router-link></li>
+						</ul>
+					</div>
+					<div id="contents" class="tbcell topalign" style="padding:0px;">
+						<router-view></router-view>
+					</div>
+					<div class="tbcell clear"></div>
+				</div>
+			</div>
   </div>
 </template>
 
 <script>
-import User from './components/User.vue'
-import ProjSummary from './components/ProjSummary.vue'
-import Issue from './components/Issue.vue'
-
-var NotFoundPage = {
-	template: `<div> Page is not found.</div>`
-};
-const routes = [
-	{path:'/', component: ProjSummary},
-	{path:'/User', component: User},
-	{path:'/issues', component: Issue},
-	{path: '*', component: NotFoundPage},
-];
-
-const router = new VueRouter({
-	mode: 'history',
-	routes,
-});
+//import User from './components/User.vue'
+//import ProjSummary from './components/ProjSummary.vue'
+//import Issue from './components/Issue.vue'
 
 export default {
   name: 'app',
-  components: {
-		User,
-		ProjSummary,
-		Issue,
-  },
-	routes,
+ // components: {
+ // 	User,
+ // 	ProjSummary,
+ // 	Issue,
+ // },
 }
 </script>
 
@@ -48,4 +44,6 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+@import './styles/spms_base.css';
 </style>
+

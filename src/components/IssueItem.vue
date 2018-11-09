@@ -278,6 +278,7 @@ import SeveritySelect from './SeveritySelect.vue'
 import PrioritySelect from './PrioritySelect.vue'
 import StatusSelect from './StatusSelect.vue'
 import UserSearch from './UserSearch.vue'
+import Datepicker from 'vuejs-datepicker'
 
 export default {
 	name : 'IssueItem',
@@ -323,7 +324,7 @@ export default {
 				};
 		},
 		components: {
-			vuejsDatepicker,
+			'vuejs-datepicker': Datepicker,
 			UserSearch,
 			StatusSelect,
 			SeveritySelect,
@@ -366,8 +367,7 @@ export default {
 				var apiuri = String.prototype.concat(location.origin, baseURL, '/api/project.php', '?action=read&id=', prjid);
 				this.axios.get(apiuri)
 					.then (function (response) {
-							if(response.data.error){
-							} else {
+							if(!response.data.error && response.data.count > 0){
 								self.projectData.code = response.data.projects[0].code;
 								self.projectData.name = response.data.projects[0].name;
 							}
@@ -378,8 +378,7 @@ export default {
 				var apiuri = String.prototype.concat(location.origin, baseURL, '/api/user.php', '?action=read&id=', uid);
 				this.axios.get(apiuri)
 					.then (function (response) {
-							if(response.data.error){
-							} else {
+							if(!response.data.error && response.data.count > 0 ){
 								if (obj === self.assignee) {
 									self.assignee = response.data.users[0];
 								} else if (obj === self.issuer) {

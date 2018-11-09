@@ -20,8 +20,6 @@ if (isset($_SESSION['userName'])){
 		<?php
 			include './inc/scripts.php';
 		?>
-		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
-		<script src="./ext/datepicker/vuejs-datepicker.js"></script>
 		<script src="./ext/frappe/frappe-gantt.js"></script>
 		<link rel="stylesheet" type="text/css" href="./ext/frappe/frappe-gantt.css">
     <title>pms</title>
@@ -33,7 +31,7 @@ if (isset($_SESSION['userName'])){
     <noscript>
       <strong>We're sorry but pms doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app"> </div>
     <!-- built files will be auto injected -->
   </body>
 </html>
