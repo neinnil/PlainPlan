@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>Sign In</title>
-	<link rel="stylesheet" type="text/css" href="spms_base.css">
+	<link rel="stylesheet" type="text/css" href="./css/spms_base.css">
 </head>
 <?php
 include 'inc/database.php';
@@ -15,7 +15,7 @@ function console($str) {
 if(empty($_SESSION)) 
 	session_start();
 if(isset($_SESSION['userName'])) {
-	header("location: index.php");
+	header("location: index.html");
 	exit;
 }
 
@@ -46,7 +46,7 @@ if(isset($_POST['submit'])) {
 		$_SESSION['role'] = $role;
 		$_SESSION['departmentname'] = $department;
 		$_SESSION['company'] = $company;
-		$toURL="index.php"; 	
+		$toURL="index.html"; 	
 	} else {
 		$toURL="login.php";
 	}

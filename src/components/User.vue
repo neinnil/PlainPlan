@@ -181,7 +181,7 @@ export default {
 
 	computed:{
 		apibaseuri: function () {
-			return String.prototype.concat('http://','35.238.80.101','/spms','/api/user.php');
+			return String.prototype.concat(location.origin,baseURL,'/api/user.php');
 		},
 		roles: function () {
 			return [{text:'Admin', value: 'admin'}, {text:'User', value:'user'}, {text:'Guest', value:'guest'}];
@@ -270,7 +270,7 @@ export default {
 		},
 		getCompanies: function() {
 			var self = this;
-			var apiuri =  String.prototype.concat('http://','35.238.80.101','/spms','/api/company.php');
+			var apiuri =  String.prototype.concat(location.origin,baseURL,'/api/company.php');
 			this.axios.get(apiuri)
 			.then (function (response) {
 				console.log(response);
