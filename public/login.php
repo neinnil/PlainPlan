@@ -25,7 +25,7 @@ if(isset($_POST['submit'])) {
 	
 	$dbhandle = new DBHandler();
 	$dbhandle->connect();
-	$checkIdstr='select u.email, u.name, u.role, d.name as departname, c.name as companyname from users as u left join department as d on (u.departmentId=d.id) left join company as c on (u.companyId = c.id) where u.email="'.$userEmail.'" and u.password=PASSWORD("'.$password.'");';	
+	$checkIdstr='select u.id as uid, u.email as uemail, u.name, u.role, d.name as departname, u.departmentId, c.name as companyname , u.companyId from users as u left join department as d on (u.departmentId=d.id) left join company as c on (u.companyId = c.id) where u.email="'.$userEmail.'" and u.password=PASSWORD("'.$password.'");';	
 	console($checkIdstr);
 
 	$res = $dbhandle->query($checkIdstr);
@@ -37,15 +37,21 @@ if(isset($_POST['submit'])) {
 	$toURL = "";
 	if ($_isValidUser>0) {
 		console("Valid... ");
+		$userid = $row['uid'];
 		$username = $row['name'];
 		$department = $row['departname'];
 		$company = $row['companyname'];
 		$role = $row['role'];
+		$departmentId = $row['departmentId'];
+		$companyId = $row['companyId'];
+		$_SESSION['userid'] = $userid;
 		$_SESSION['userEmail'] = $userEmail;
 		$_SESSION['userName'] = $username;
 		$_SESSION['role'] = $role;
 		$_SESSION['departmentname'] = $department;
+		$_SESSION['departmentId'] = $departmentId;
 		$_SESSION['company'] = $company;
+		$_SESSION['companyId'] = $companyId;
 		$toURL="index.html"; 	
 	} else {
 		$toURL="login.php";
