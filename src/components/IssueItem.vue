@@ -275,7 +275,7 @@
 </template>
 <script>
 import SeveritySelect from './SeveritySelect.vue'
-import PrioritySelect from '../PrioritySelect.vue'
+import PrioritySelect from './PrioritySelect.vue'
 import StatusSelect from './StatusSelect.vue'
 import UserSearch from './UserSearch.vue'
 
@@ -364,7 +364,7 @@ export default {
 			getProjectShortInfo: function(prjid) {
 				var self = this;
 				var apiuri = String.prototype.concat(location.origin, baseURL, '/api/project.php', '?action=read&id=', prjid);
-				axios.get(apiuri)
+				this.axios.get(apiuri)
 					.then (function (response) {
 							if(response.data.error){
 							} else {
@@ -376,7 +376,7 @@ export default {
 			getUserInfo: function(uid, obj) {
 				var self = this;
 				var apiuri = String.prototype.concat(location.origin, baseURL, '/api/user.php', '?action=read&id=', uid);
-				axios.get(apiuri)
+				this.axios.get(apiuri)
 					.then (function (response) {
 							if(response.data.error){
 							} else {
@@ -412,7 +412,7 @@ export default {
 				}
 				var formData = this.toFormData(data);
 				console.log(formData);
-				axios.post (apiuri, formData)
+				this.axios.post (apiuri, formData)
 					.then (function (response) {
 							self.$emit('updateresult',{'error':response.data.error,'message':response.data.message});
 					});

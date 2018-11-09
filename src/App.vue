@@ -4,18 +4,21 @@
     <!-- HelloWorld msg="Welcome to Your Vue.js App"/ //-->
 		<User />
 		<ProjSummary />
+		<Issue />
   </div>
 </template>
 
 <script>
 import User from './components/User.vue'
 import ProjSummary from './components/ProjSummary.vue'
+import Issue from './components/Issue.vue'
 
 export default {
   name: 'app',
   components: {
 		User,
 		ProjSummary,
+		Issue,
   }
 }
 </script>

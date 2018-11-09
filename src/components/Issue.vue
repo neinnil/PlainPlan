@@ -71,8 +71,17 @@ export default {
 		vuejsDatepicker,
   },
 	props: {
-		writer: {},
-		project: {},
+		writer: {
+			type: Object,
+			default: loginUser,
+		},
+		project: {
+			type: Object,
+			default: {
+				code: '18si0100',
+				name: 'SPMS',
+			},
+		},
 	},
 	data () { 
 		return  {
@@ -97,7 +106,7 @@ export default {
 		getlistofissue: function () {
 			var self = this;
 			var apiuri = String.prototype.concat(location.origin, baseURL, '/api/issue.php', '?action=read');
-			axios.get(apiuri)
+			this.axios.get(apiuri)
 				.then( function (response) {
 					if (response.data.error) {
 					} else {
@@ -146,7 +155,7 @@ export default {
 			return  year+'-'+month+'-'+days;
 		}
   }
-});
+};
 </script>
 
 <style>

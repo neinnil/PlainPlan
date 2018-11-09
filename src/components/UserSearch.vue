@@ -53,7 +53,7 @@ export default {
 			var self = this;
 			var name = this.searchtext;
 			var apiuri = String.prototype.concat(location.origin,baseURL, '/api/user.php','?action=read&name=',name);
-			axios.get(apiuri)
+			this.axios.get(apiuri)
 				.then (function (response) {
 					console.log("response data message: ", response.data.message);
 					if (response.data.error) {
