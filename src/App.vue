@@ -8,14 +8,12 @@
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
 import User from './components/User.vue'
 import ProjSummary from './components/ProjSummary.vue'
 
 export default {
   name: 'app',
   components: {
- //   HelloWorld,
 		User,
 		ProjSummary,
   }
