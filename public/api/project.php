@@ -76,6 +76,7 @@
 		"status" => $_POST["status"],
 		"projectManager" => $_POST["projectManager"],
 		"projectLeaders" => $_POST["projectLeaders"],
+		"description" => $_POST["description"],
 		);
 		$where = NULL;
 		if (isset($_POST["id"])) 

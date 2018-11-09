@@ -7,6 +7,10 @@
 							<li><router-link to="/">Home</router-link></li>
 							<li><router-link to="/index.html">Summary</router-link></li>
 							<li><router-link to="/User">User</router-link></li>
+							<li><router-link to="/ProjectNew"> + Project</router-link></li>
+							<li><router-link to="/ProjectList">Projects</router-link></li>
+							<li><router-link to="/TaskNew"> + Task</router-link></li>
+							<li><router-link to="/TaskList">Tasks</router-link></li>
 							<li><router-link to="/Issue">Issue</router-link></li>
 							<li><router-link to="/WorkNote">WorkNote</router-link></li>
 						</ul>
