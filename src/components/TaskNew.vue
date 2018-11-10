@@ -83,30 +83,31 @@ export default {
   },
 	props: {
 		projectId: 1,
+		project: Object,
 	},
   data () {
 		return {
 			taskitem : {
-				id: '',
-				projectId: '',
-				name: '',
-				parentId: '',
-				taskId: '',
-				wbs: '',
-				parentTaskId: '',
-				upTaskId: '',
-				downTaskId: '',
-				start: new Date(),
-				end: new Date(),
-				duration: '',
-			  startDate: '',
-				endDate: '',
-				assigneeId: [],
-				successor: [],
-				precedence: [],
-				note: '',
-				isMilestone: false,
-				isNewTask: true,
+					id: '',
+					projectId: '',
+					name: '',
+					parentId: '',
+					taskId: '',
+					wbs: '',
+					parentTaskId: '',
+					upTaskId: '',
+					downTaskId: '',
+					start: new Date(),
+					end: new Date(),
+					duration: '',
+					startDate: '',
+					endDate: '',
+					assigneeId: [],
+					successor: [],
+					precedence: [],
+					note: '',
+					isMilestone: false,
+					isNewTask: true,
 				},
 				errorMessage: "",
 				successMessage: "",
@@ -119,16 +120,17 @@ export default {
 		},
 		duration: function() {
 			return Math.round((this.taskitem.end - this.taskitem.start)/(24*60*60*1000) + 1.0);
-		}
+		},
 	},
 	watch: {
-			duratoin: function () {
+			duration: function () {
 				this.taskitem.duration = this.duration;
-			}
+			},
 	},
   methods: {
 		taskitemSave: function() {
-			this.toDateString();
+			this.taskitem.startDate = this.toDateString(this.taskitem.start);
+			this.taskitem.endDate = this.toDateString(this.taskitem.end);
 			this.taskitem.projectId = 1;//this.projectId;
 			this.taskitem.duration = (this.taskitem.end - this.taskitem.start);
 			var formData = this.toFormData(this.taskitem);
@@ -163,17 +165,17 @@ export default {
 			this.errorMessage = "";
 			this.successMessage = "";
 		},
-		toDateString: function () {
-			this.taskitem.startDate = this.projtoDateFormat(this.taskitem.start);
-			this.taskitem.endDate = this.projtoDateFormat(this.taskitem.end);
+		toDateString: function (obj) {
+			if (obj instanceof Date) {
+				var year = obj.getFullYear();
+				var month = obj.getMonth() + 1;
+				var days = obj.getDate();
+				return  year+'-'+month+'-'+days;
+			} else {
+				return obj;
+			}
 		},
-		projtoDateFormat: function (val) {
-			var year = val.getFullYear();
-			var month = val.getMonth() + 1;
-			var days = val.getDate();
-			return  year+'-'+month+'-'+days;
-		}
-  }
+  },
 }
 /***
 var	ganttChart =  new Gantt("#ganttView", projApp.tasks, {
