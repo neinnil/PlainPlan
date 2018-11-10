@@ -22,7 +22,7 @@
 		<div class="tbrow">
 			<div class="tbcell">
 				<h3 style="display:inline"><?php echo $_SESSION["userName"] ?>( <?php echo $_SESSION['role'] ?>)</h3>
-				<a href="./logout.php">Log out</a>
+				<a href="/logout.php">Log out</a>
 			</div>
 			<div class="tbcell">
 				<?php

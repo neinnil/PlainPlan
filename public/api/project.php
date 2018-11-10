@@ -17,8 +17,8 @@
 	if ($action == "read") {
 		myDebug("project.php [$action] Query: project read\n");
 		$where = "";
-		if (isset($_GET["id"])) {
-			$projectId = $_GET["id"];
+		if (isset($_GET["projectId"])) {
+			$projectId = $_GET["projectId"];
 			$where = "where id=$projectId ";
 		}
 
@@ -51,7 +51,7 @@
 		$projectManager =  $_POST["manager"];
 		//$projectLeaders = $_POST["projectLeaders"];
 		$query = "insert into project (name, projectCode, description, startDate, endDate) values ('$name','$projectCode', '$description','$startDate','$endDate');";
-		myDebu("project.php [$action] Query: $query\n");
+		myDebug("project.php [$action] Query: $query\n");
 		$result = $db->query($query);
 		if($db->getAffectedRows()>0) {
 			$res["message"] = "Success";

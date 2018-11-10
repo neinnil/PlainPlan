@@ -18,7 +18,7 @@
 		$where = "";
 		if (isset($_GET["projectId"])) {
 			$projectId = $_GET["projectId"];
-			$where = " projectId=$projectId ";
+			$where = "where projectId=$projectId ";
 		}
 		if (isset($_GET["taskId"])) {
 			$taskId = $_GET["taskId"];
