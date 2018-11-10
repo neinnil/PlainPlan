@@ -225,7 +225,7 @@ export default {
 					self.getAllUsers();
 					self.resetNewUser();
 				}
-				setTimeout(function(){this.clearMessage();}, 3000);
+				setTimeout(function(){self.clearMessage();}, 3000);
 			});
 		},
 		delUser: function () {
