@@ -1,3 +1,11 @@
+<?php
+if(empty($_SESSION)) 
+	session_start();
+if(isset($_SESSION['userName'])) {
+	header("location: index.html");
+	exit;
+}
+?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -10,13 +18,6 @@ include 'inc/database.php';
 
 function console($str) {
 	echo "<script>console.log(".$str.")</script>";
-}
-
-if(empty($_SESSION)) 
-	session_start();
-if(isset($_SESSION['userName'])) {
-	header("location: index.html");
-	exit;
 }
 
 if(isset($_POST['submit'])) {
