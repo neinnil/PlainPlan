@@ -15,7 +15,7 @@
 	$db->connect();
 
 	if ($action == "read") {
-		error_log("project.php [$action] Query: project read\n", 3, "/var/log/php7/my-errors.log");
+		myDebug("project.php [$action] Query: project read\n");
 		$where = "";
 		if (isset($_GET["id"])) {
 			$projectId = $_GET["id"];
@@ -24,7 +24,7 @@
 
 		$query="select id, name, projectCode as code, parentId, description, startDate as start, endDate as end, actualStartDate as actualstart, actualEndDate as actualend, status, projectManager, projectLeaders from project $where;";
 
-		error_log("Query: $query\n", 3, "/var/log/php7/my-errors.log");
+		myDebug("Query: $query\n");
 
 		$result = $db->query($query);
 		if( $result && $result->num_rows>=0){
@@ -93,7 +93,7 @@
 	if ($action == "delete") {
 		$id = $_POST["id"];
 		$query = "delete from project where id=$id;";
-		error_log("project.php [$action] Query: $query\n", 3, "/var/log/php7/my-errors.log");
+		myDebug("project.php [$action] Query: $query\n");
 		if($result = $db->query($query)) {
 			$res["message"] = "Success";
 //			$result->close();
