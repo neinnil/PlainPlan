@@ -57,7 +57,7 @@
 import Datepicker from 'vuejs-datepicker'
 
 export default {
-	name: 'ProjectItem',
+	name: 'ProjectNew',
   components: {
 		'vuejs-datepicker': Datepicker,
   },
@@ -100,22 +100,11 @@ export default {
 				} else {
 					console.log("create success", response.data.message);	
 					self.successMessage = response.data.message;	
+					self.isNewProject = false;
 				}
-				setTimeout(function() {self.clearMessage();}, 3000);
+				setTimeout(function() {self.clearMessage();}, 1000);
 			});
 		},
-    addNewTask: function () {
-      this.tasks.push({
-				id: '',
-				name: '',
-				duration: '',
-				start: '',
-				endData: '',
-      })
-    },
-    updateStartDate: function(d) {
-      this.start = d;
-    },
 		toFormData: function (obj) {
 			var formData = new FormData();
 			for (var key in obj) {
@@ -130,10 +119,8 @@ export default {
 			this.successMessage = "";
 		},
 		toDateString: function () {
-			//var options= {year: 'numeric', month: 'numeric', day: 'numeric'};
 			this.project_desc.startDate = this.projtoDateFormat(this.project_desc.start);
 			this.project_desc.endDate = this.projtoDateFormat(this.project_desc.end);
-			//this.project_desc.endDate = this.project_desc.end.toLocaleDateString("ko-KR", options );
 		},
 		projtoDateFormat: function (val) {
 			var year = val.getFullYear();
