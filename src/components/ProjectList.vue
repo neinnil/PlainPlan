@@ -1,5 +1,5 @@
 <template>
-  <div id="project-list" class="center" style="width:100%;margin-top:1em;">
+  <div id="project-list" class="center" style="width:100%;">
 	  <h3>List of Projects</h3>
 		<div class="modal" v-if="errorMessage || successMessage">
 			<p class="errorMessage" v-if="errorMessage">
