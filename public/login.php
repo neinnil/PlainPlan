@@ -5,19 +5,11 @@ if(isset($_SESSION['userName'])) {
 	header("location: index.html");
 	exit;
 }
-?>
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="utf-8"/>
-<title>Sign In</title>
-	<link rel="stylesheet" type="text/css" href="./css/spms_base.css">
-</head>
-<?php
+
 include 'inc/database.php';
 
 function console($str) {
-	echo "<script>console.log(".$str.")</script>";
+	echo "<script>console.log('$str')</script>";
 }
 
 if(isset($_POST['submit'])) {
@@ -26,18 +18,15 @@ if(isset($_POST['submit'])) {
 	
 	$dbhandle = new DBHandler();
 	$dbhandle->connect();
-	$checkIdstr='select u.id as uid, u.email as uemail, u.name, u.role, d.name as departname, u.departmentId, c.name as companyname , u.companyId from users as u left join department as d on (u.departmentId=d.id) left join company as c on (u.companyId = c.id) where u.email="'.$userEmail.'" and u.password=PASSWORD("'.$password.'");';	
-	console($checkIdstr);
+	$checkIdstr="select u.id as uid, u.email as uemail, u.name, u.role, d.name as departname, u.departmentId, c.name as companyname, u.companyId from users as u left join department as d on (u.departmentId=d.id) left join company as c on (u.companyId = c.id) where u.email='$userEmail' and u.password=PASSWORD('$password');";	
 
 	$res = $dbhandle->query($checkIdstr);
 //	$res  = &$dbhandle->result();
 
-	console($res->num_rows);
 	$row = $res->fetch_assoc();
 	$_isValidUser = $res->num_rows;
 	$toURL = "";
 	if ($_isValidUser>0) {
-		console("Valid... ");
 		$userid = $row['uid'];
 		$username = $row['name'];
 		$department = $row['departname'];
@@ -59,10 +48,17 @@ if(isset($_POST['submit'])) {
 	}
 	$res->close();
 	$dbhandle->close();
-	header("location: ".$toURL);
+	header("location: .$toURL");
 }
 
 ?>
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Sign In</title>
+	<link rel="stylesheet" type="text/css" href="./css/spms_base.css">
+</head>
 <body onload="document.getElementById('userEmail').focus();">
 	<div class="center middle">
 	<h1 >Sign In</h1>
