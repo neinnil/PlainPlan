@@ -59,7 +59,7 @@ class DBHandler {
 		$vals = " (";
 		
 		foreach ($varr as $key => $value)  {
-			if (is_null($value)) {
+			if (is_null($value) || strlen($value) <1) {
 				myDebug("INSERT: $table: $key has no value. \n");
 				continue;
 			}
