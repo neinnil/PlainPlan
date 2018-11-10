@@ -25,8 +25,8 @@
 				<div class="tbrow" v-for="proj in projects" :key="proj.id">
 					<div class="tbcell">{{proj.name}}</div>
 					<div class="tbcell">{{proj.code}}</div>
-					<div class="tbcell">{{proj.start}}</div>
-					<div class="tbcell">{{proj.end}}</div>
+					<div class="tbcell">{{toDateString(proj.start)}}</div>
+					<div class="tbcell">{{toDateString(proj.end)}}</div>
 					<div class="tbcell">{{proj.status}}</div>
 					<div class="tbcell">{{proj.description}}</div>
 					<div class="tbcell">
@@ -140,6 +140,16 @@ export default {
 				this.selProj.end = new Date(edstr);
 			}	
 		},
+		toDateString: function (obj) {
+			if (obj instanceof Date){
+				var y = obj.getFullYear();
+				var m = obj.getMonth() + 1;
+				var d = obj.getDate();
+				return y+'-'+m+'-'+d;
+			} else {
+				return obj;
+			}
+		},
 		getAllProjects: function() {
 			var apiuri = String.prototype.concat(location.origin, baseURL, '/api/project.php','?action=read');
 			var self = this;
@@ -199,7 +209,12 @@ export default {
 			for (var key in obj) {
 				console.log(key);
 				console.log(obj[key]);
-				formData.append(key, obj[key]);
+				if (obj[key] instanceof Date) {
+					var dayStr = this.toDateString(obj[key]);
+					formData.append(key, dayStr);
+				} else {
+					formData.append(key, obj[key]);
+				}
 			}
 			return formData;
 		},
@@ -207,9 +222,6 @@ export default {
 			this.errorMessage = "";
 			this.successMessage = "";
 		},
-		toDateString: function () {
-			var options= {year: 'numeric', month: 'numeric', day: 'numeric'};
-		}
   }
 }
 /***
