@@ -8,7 +8,7 @@ import routes from './routes.vue'
 
 Vue.use(VueAxios, axios)
 
-Vue.use(Router)
+Vue.use(Router, router)
 
 const router = new Router({
 	mode: 'history',

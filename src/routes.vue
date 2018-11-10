@@ -5,6 +5,7 @@ import Issue from './components/Issue.vue'
 import WorkNote from './components/WorkNote.vue'
 import ProjectList from './components/ProjectList.vue'
 import ProjectNew from './components/ProjectNew.vue'
+import ProjectView from './components/ProjectView.vue'
 import TaskList from './components/TaskList.vue'
 import TaskNew from './components/TaskNew.vue'
 
@@ -31,6 +32,12 @@ export  default  [
 	{
 		path:'/ProjectNew',
 		component: ProjectNew
+	},
+	{
+	  path: '/ProjectView/:projid',
+		name: 'ProjectView',
+		component: ProjectView,
+		props: true,
 	},
 	{
 		path:'/TaskList',
