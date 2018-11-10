@@ -51,7 +51,7 @@
 		$projectManager =  $_POST["manager"];
 		//$projectLeaders = $_POST["projectLeaders"];
 		$query = "insert into project (name, projectCode, description, startDate, endDate) values ('$name','$projectCode', '$description','$startDate','$endDate');";
-		error_log("project.php [$action] Query: $query\n", 3, "/var/log/php7/my-errors.log");
+		myDebu("project.php [$action] Query: $query\n");
 		$result = $db->query($query);
 		if($db->getAffectedRows()>0) {
 			$res["message"] = "Success";

@@ -3,6 +3,7 @@
 
 	$res = array("error"=>false);
 
+	$_file = "user.php";
 	$action = "read";
 
 	if (isset($_GET["action"])) {
@@ -47,15 +48,20 @@
 	}
 
 	if ($action == "create") {
-		$email = $_POST["email"];
-		$name = $_POST["name"];
-		$password = $_POST["password"];
-		$role = $_POST["role"];
-		$userCode = isset($_POST["userCode"])?$_POST["userCode"]:NULL;
-		$departmentId = isset($_POST["departmentId"])?$_POST["departmentId"]:NULL;
-		$companyId = isset($_POST["compnayId"])?$_POST["companyId"]:NULL;
-		$query = "insert into users (email, name, password, role, userCode, departmentId, companyId) values ('$email', '$name', PASSWORD('$password'),'$role', '$userCode', '$departmentId', '$companyId');";
-		if($result = $db->query($query)) {
+		$data = array (
+		"email" => $_POST["email"],
+		"name" => $_POST["name"],
+		"password" => $_POST["password"],
+		"role" => $_POST["role"],
+		"userCode" => $_POST["userCode"],
+		"departmentId" => $_POST["departmentId"],
+		"companyId" => $_POST["companyId"],
+		);
+		
+	//	$query = "insert into users (email, name, password, role, userCode, departmentId, companyId) values ('$email', '$name', PASSWORD('$password'),'$role', '$userCode', $departmentId, $companyId);";
+	//	myDebug("$_file[$action] Query: $query\n");
+		$result = $db->insert("users", $data);
+		if($db->getAffectedRows()>0) {
 			$res["message"] = "Success";
 		} else {
 			$res["error"] = true;
@@ -104,14 +110,14 @@
 			if(strlen($setClause)> 0) {
 				$setClause .= ", ";
 			}
-			$setClause .= " departmentId = '$departmentId'";
+			$setClause .= " departmentId = $departmentId";
 		}
 		if (isset($_POST["companyId"])) {
 			$companyId = $_POST["companyId"];
 			if(strlen($setClause)> 0) {
 				$setClause .= ", ";
 			}
-			$setClause .= " companyId = '$companyId'";
+			$setClause .= " companyId = $companyId";
 		}
 		$query = "update users set {$setClause}  where id = {$id};";
 		if ($result = $db->query($query)) {
