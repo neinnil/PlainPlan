@@ -1,6 +1,6 @@
 <template>
   <div id="task-new" class="center" style="width:100%;margin-top:1em;">
-	  <h3>New Task: {{projname}}</h3>
+	  <h3>New Task: {{projectId}}</h3>
 		<div class="modal" v-if="errorMessage || successMessage">
 			<p class="errorMessage" v-if="errorMessage">
 				{{errorMessage}}
@@ -82,7 +82,10 @@ export default {
 		'vuejs-datepicker': Datepicker,
   },
 	props: {
-		projectId: 1,
+		projectId: {
+			type: [Number, String],
+			default: 1,
+		},
 		project: Object,
 	},
   data () {
@@ -124,15 +127,20 @@ export default {
 	},
 	watch: {
 			duration: function () {
-				this.taskitem.duration = this.duration;
+				var day = this.duration;
+				var durInSec = (this.taskitem.end - this.taskitem.start)/1000;
+				var dHour = Math.floor(durInSec/3600);
+				var dMin = Math.floor( (durInSec % 3600) / 60);
+				var dSec = durInSec%60;
+				this.taskitem.duration = "PT"+dHour+"H"+dMin+"M"+dSec+"S";
 			},
 	},
   methods: {
 		taskitemSave: function() {
 			this.taskitem.startDate = this.toDateString(this.taskitem.start);
 			this.taskitem.endDate = this.toDateString(this.taskitem.end);
-			this.taskitem.projectId = 1;//this.projectId;
-			this.taskitem.duration = (this.taskitem.end - this.taskitem.start);
+			this.taskitem.projectId = this.projectId;
+//			this.taskitem.duration = (this.taskitem.end - this.taskitem.start);
 			var formData = this.toFormData(this.taskitem);
 			console.log("form Data: ",formData);
 			var apiuri = String.prototype.concat(location.origin,baseURL, '/api/tasks.php','?action=create');
@@ -148,7 +156,8 @@ export default {
 					console.log("create success", response.data.message);	
 					self.successMessage = response.data.message;	
 				}
-				setTimeout(function() {self.clearMessage();}, 3000);
+				setTimeout(function() {self.clearMessage();}, 1000);
+				self.$emit('updateResult', response.data);
 			});
 		},
 

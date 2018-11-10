@@ -1,6 +1,5 @@
 <template>
   <div id="task-list" class="center" style="width:100%;">
-	  <h3>Task List: {{projname}}</h3>
 		<div class="modal" v-if="errorMessage || successMessage">
 			<p class="errorMessage" v-if="errorMessage">
 				{{errorMessage}}
@@ -78,7 +77,7 @@ export default {
 	},
   methods: {
 		getAllTasks: function() {
-			var apiuri = String.prototype.concat(location.origin,baseURL, '/api/tasks.php','?action=read');
+			var apiuri = String.prototype.concat(location.origin,baseURL, '/api/tasks.php','?action=read&projectId=',this.projectId);
 			var self = this;
 
 			this.axios.get(apiuri)
@@ -92,7 +91,7 @@ export default {
 					self.successMessage = response.data.message;	
 					self.tasks = response.data.tasks;
 				}
-				setTimeout(function() {self.clearMessage();}, 3000);
+				setTimeout(function() {self.clearMessage();}, 1000);
 			});
 		},
 
