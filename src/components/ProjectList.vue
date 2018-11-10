@@ -23,7 +23,11 @@
 			</div>
 			<div class="tbbody" v-if="projects.length>0">
 				<div class="tbrow" v-for="proj in projects" :key="proj.id">
-					<div class="tbcell">{{proj.name}}</div>
+					<div class="tbcell">
+						<router-link :to="{name: 'ProjectView', params: {projid: proj.id }}">
+						{{proj.name}}
+						</router>
+					</div>
 					<div class="tbcell">{{proj.code}}</div>
 					<div class="tbcell">{{toDateString(proj.start)}}</div>
 					<div class="tbcell">{{toDateString(proj.end)}}</div>
@@ -110,12 +114,14 @@
 <script>
 
 import Datepicker from 'vuejs-datepicker'
+import ProjectView from './ProjectView.vue'
 
 export default {
 	name: 'ProjectList',
 
   components: {
 		'vuejs-datepicker': Datepicker,
+		ProjectView,
   },
 
   data () {
@@ -134,6 +140,9 @@ export default {
 	},
 	mounted: function() {
 		console.log("Mounted");
+		if (this.$router) {
+			console.log("Router object is not null\n");
+		}
 		this.getAllProjects();
 	},
   methods: {
@@ -170,7 +179,7 @@ export default {
 					self.projects = response.data.projects;
 					console.log("Count: ", response.data.count);
 				}
-				setTimeout(function() {self.clearMessage();}, 3000);
+				setTimeout(function() {self.clearMessage();}, 1000);
 			});
 		},
 		updateProject: function () {
@@ -187,7 +196,7 @@ export default {
 						self.successMessage = response.data.message;
 						self.getAllProjects();
 					}
-					setTimeout(function (){self.clearMessage();},3000);
+					setTimeout(function (){self.clearMessage();},1000);
 				}
 			);
 		},
@@ -205,7 +214,7 @@ export default {
 						self.successMessage = response.data.message;
 						self.getAllProjects();
 					}
-					setTimeout(function (){self.clearMessage();},3000);
+					setTimeout(function (){self.clearMessage();},1000);
 				}
 			);
 		},
