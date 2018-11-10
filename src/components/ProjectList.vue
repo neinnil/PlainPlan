@@ -10,7 +10,7 @@
 			</p>
 		</div>
 			
-		<div class="ttable" v-if="projects && projects.length >0" >
+		<div class="ttable" v-if="projects" >
 			<div class="tbrow head"> 
 				<div class="tbcell">Name</div>
 				<div class="tbcell">Code</div>
@@ -21,7 +21,7 @@
 				<div class="tbcell"> </div>
 				<div class="tbcell"> </div>
 			</div>
-			<div class="tbbody">
+			<div class="tbbody" v-if="projects.length>0">
 				<div class="tbrow" v-for="proj in projects" :key="proj.id">
 					<div class="tbcell">{{proj.name}}</div>
 					<div class="tbcell">{{proj.code}}</div>
@@ -35,6 +35,11 @@
 					<div class="tbcell">
 							<button type="button" @click="selProj=proj;convertDate(selProj); showDelModal=true;" >Delete</button>
 					</div>
+				</div>
+			</div>
+			<div class="tbrow" v-else>
+				<div class="tbcell colspan">
+					There is no proejct.
 				</div>
 			</div>
 		</div>
