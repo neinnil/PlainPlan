@@ -1,0 +1,508 @@
+-- MySQL dump 10.16  Distrib 10.1.26-MariaDB, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: spmsdb
+-- ------------------------------------------------------
+-- Server version	10.1.26-MariaDB-0+deb9u1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `activities`
+--
+
+DROP TABLE IF EXISTS `activities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) DEFAULT NULL,
+  `type` tinyint(4) DEFAULT NULL,
+  `typename` varchar(128) DEFAULT NULL,
+  `content` text,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `activities`
+--
+
+LOCK TABLES `activities` WRITE;
+/*!40000 ALTER TABLE `activities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `activities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `attachment`
+--
+
+DROP TABLE IF EXISTS `attachment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `attachment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `parentId` int(11) DEFAULT NULL,
+  `projectId` int(11) DEFAULT NULL,
+  `taskId` int(11) DEFAULT NULL,
+  `path` varchar(4096) DEFAULT NULL,
+  `backupPath` varchar(4096) DEFAULT NULL,
+  `tableName` varchar(256) DEFAULT NULL,
+  `type` smallint(6) DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `attachment`
+--
+
+LOCK TABLES `attachment` WRITE;
+/*!40000 ALTER TABLE `attachment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `attachment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `calendar`
+--
+
+DROP TABLE IF EXISTS `calendar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `calendar` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `projectId` int(11) DEFAULT NULL,
+  `parentId` int(11) DEFAULT NULL,
+  `weekdays` text,
+  `exceptions` text,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `calendar`
+--
+
+LOCK TABLES `calendar` WRITE;
+/*!40000 ALTER TABLE `calendar` DISABLE KEYS */;
+/*!40000 ALTER TABLE `calendar` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `company`
+--
+
+DROP TABLE IF EXISTS `company`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `company` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `companyCode` varchar(64) DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `companyCode` (`companyCode`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `company`
+--
+
+LOCK TABLES `company` WRITE;
+/*!40000 ALTER TABLE `company` DISABLE KEYS */;
+INSERT INTO `company` VALUES (1,'company A','COMP_0001','2018-11-08 10:57:35','0000-00-00 00:00:00',1);
+/*!40000 ALTER TABLE `company` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `department`
+--
+
+DROP TABLE IF EXISTS `department`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `department` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `departmentCode` varchar(64) DEFAULT NULL,
+  `companyId` int(11) DEFAULT NULL,
+  `parentId` int(11) DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `departmentCode` (`departmentCode`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `department`
+--
+
+LOCK TABLES `department` WRITE;
+/*!40000 ALTER TABLE `department` DISABLE KEYS */;
+INSERT INTO `department` VALUES (1,'Lab A','DEPT_001',1,NULL,'2018-11-08 10:57:35','0000-00-00 00:00:00',1);
+/*!40000 ALTER TABLE `department` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `issues`
+--
+
+DROP TABLE IF EXISTS `issues`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `issues` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `parentId` int(11) DEFAULT NULL,
+  `projectId` int(11) DEFAULT NULL,
+  `taskId` int(11) DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
+  `assigneeId` int(11) DEFAULT NULL,
+  `duedate` datetime DEFAULT NULL,
+  `title` tinytext NOT NULL,
+  `description` text,
+  `status` tinyint(4) DEFAULT NULL,
+  `severity` tinyint(4) DEFAULT NULL,
+  `priority` tinyint(4) DEFAULT NULL,
+  `tag` text,
+  `attachements` text,
+  `closeddate` datetime DEFAULT NULL,
+  `rootCause` text,
+  `response` text,
+  `comment` text,
+  `prevent` text,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `issues`
+--
+
+LOCK TABLES `issues` WRITE;
+/*!40000 ALTER TABLE `issues` DISABLE KEYS */;
+INSERT INTO `issues` VALUES (1,'',NULL,1,0,4,0,'0000-00-00 00:00:00','한글 제목','이슈 내용 ',1,3,2,NULL,NULL,'0000-00-00 00:00:00','',NULL,NULL,NULL,'2018-11-08 10:58:11','2018-11-08 13:41:02',1),(2,'',NULL,2,0,4,6,'0000-00-00 00:00:00','버그 1. safari에서 사용자 선택이 이상하다.','사용자 찾기 관련 문제, 입력 창에 값을 갱신하지 않는다.',1,3,2,NULL,NULL,'0000-00-00 00:00:00','',NULL,NULL,NULL,'2018-11-08 11:07:34','2018-11-08 13:41:11',1),(3,'',NULL,22,0,3,3,'0000-00-00 00:00:00','아이폰에서 화면 이상','이건 아이폰에서 올린 글. \r\n날짜 선택란이 다은 칸에 겹쳐 보인다. ',2,0,0,NULL,NULL,'0000-00-00 00:00:00','',NULL,NULL,NULL,'2018-11-09 12:04:55','0000-00-00 00:00:00',1);
+/*!40000 ALTER TABLE `issues` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `location`
+--
+
+DROP TABLE IF EXISTS `location`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `location` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `parentId` int(11) DEFAULT NULL,
+  `address` text,
+  `specData` text,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `location`
+--
+
+LOCK TABLES `location` WRITE;
+/*!40000 ALTER TABLE `location` DISABLE KEYS */;
+/*!40000 ALTER TABLE `location` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `material`
+--
+
+DROP TABLE IF EXISTS `material`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `material` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `partno` varchar(256) NOT NULL,
+  `type` varchar(64) DEFAULT NULL,
+  `specData` text,
+  `parentId` int(11) DEFAULT NULL,
+  `taskId` int(11) DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `material`
+--
+
+LOCK TABLES `material` WRITE;
+/*!40000 ALTER TABLE `material` DISABLE KEYS */;
+/*!40000 ALTER TABLE `material` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `note`
+--
+
+DROP TABLE IF EXISTS `note`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `note` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `projectId` int(11) DEFAULT NULL,
+  `taskId` int(11) DEFAULT NULL,
+  `parentId` int(11) DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
+  `departmentId` int(11) DEFAULT NULL,
+  `writer` int(11) DEFAULT NULL,
+  `workingtime` time DEFAULT NULL,
+  `today` text,
+  `nextday` text,
+  `attachedObjs` text,
+  `status` int(11) DEFAULT NULL,
+  `revision` int(11) DEFAULT NULL,
+  `type` tinyint(4) DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `note`
+--
+
+LOCK TABLES `note` WRITE;
+/*!40000 ALTER TABLE `note` DISABLE KEYS */;
+INSERT INTO `note` VALUES (1,'prj1_test 1_note',1,1,NULL,2,NULL,2,'08:00:00','Test... Today ','Next Day... ',NULL,NULL,NULL,NULL,'2018-11-09 13:07:45','0000-00-00 00:00:00',1);
+/*!40000 ALTER TABLE `note` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `progIndicators`
+--
+
+DROP TABLE IF EXISTS `progIndicators`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `progIndicators` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parentId` int(11) DEFAULT NULL,
+  `progressId` int(11) DEFAULT NULL,
+  `projectId` int(11) DEFAULT NULL,
+  `taskId` int(11) DEFAULT NULL,
+  `modifier` int(11) DEFAULT NULL,
+  `value` tinyint(4) DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `progIndicators`
+--
+
+LOCK TABLES `progIndicators` WRITE;
+/*!40000 ALTER TABLE `progIndicators` DISABLE KEYS */;
+/*!40000 ALTER TABLE `progIndicators` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project`
+--
+
+DROP TABLE IF EXISTS `project`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `projectCode` varchar(64) NOT NULL,
+  `parentId` int(11) DEFAULT NULL,
+  `description` text,
+  `startDate` date NOT NULL,
+  `endDate` date NOT NULL,
+  `actualStartDate` date DEFAULT NULL,
+  `actualEndDate` date DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `projectManager` int(11) DEFAULT NULL,
+  `projectLeaders` tinyint(3) unsigned DEFAULT NULL,
+  `numbOfWorkers` smallint(5) unsigned DEFAULT NULL,
+  `numbOfTasks` smallint(5) unsigned DEFAULT NULL,
+  `numbOfRealTasks` smallint(5) unsigned DEFAULT NULL,
+  `estimatedCost` int(11) DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project`
+--
+
+LOCK TABLES `project` WRITE;
+/*!40000 ALTER TABLE `project` DISABLE KEYS */;
+INSERT INTO `project` VALUES (1,'SPMS DEV','18SI0100',0,'Project Management System.\r\nVue Project','2018-09-20','2019-01-31',NULL,NULL,0,0,0,NULL,NULL,NULL,NULL,'2018-11-08 13:15:02','2018-11-10 02:21:59',1),(2,'spms alpha','18si0101',0,'SPMS alpha version \r\nDelayed','2018-09-20','2018-11-01',NULL,NULL,0,0,0,NULL,NULL,NULL,NULL,'2018-11-08 13:16:11','2018-11-10 02:29:39',1);
+/*!40000 ALTER TABLE `project` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resources`
+--
+
+DROP TABLE IF EXISTS `resources`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resources` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `parentId` int(11) DEFAULT NULL,
+  `projectId` int(11) DEFAULT NULL,
+  `resourceId` int(11) DEFAULT NULL,
+  `type` enum('worker','material','location') NOT NULL DEFAULT 'worker',
+  `role` enum('project manager','project leader','labour','observer','material','location') NOT NULL DEFAULT 'labour',
+  `privileges` enum('readonly','readwrite') DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `cost` int(11) DEFAULT NULL,
+  `overtimeCost` int(11) DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resources`
+--
+
+LOCK TABLES `resources` WRITE;
+/*!40000 ALTER TABLE `resources` DISABLE KEYS */;
+/*!40000 ALTER TABLE `resources` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `task`
+--
+
+DROP TABLE IF EXISTS `task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `task` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `projectId` int(11) NOT NULL,
+  `parentId` int(11) DEFAULT NULL,
+  `taskId` int(11) DEFAULT NULL,
+  `parentTaskId` int(11) DEFAULT NULL,
+  `upTaskId` int(11) DEFAULT NULL,
+  `downTaskId` int(11) DEFAULT NULL,
+  `level` tinyint(4) DEFAULT NULL,
+  `wbs` tinytext,
+  `assigneeId` int(11) DEFAULT NULL,
+  `startDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `endDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `duration` datetime DEFAULT NULL,
+  `actualStartDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `actualEndDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `precedenceTasks` text,
+  `sucessorTasks` text,
+  `isMilestone` tinyint(4) DEFAULT NULL,
+  `isTaskGroup` tinyint(4) DEFAULT NULL,
+  `note` text,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `task`
+--
+
+LOCK TABLES `task` WRITE;
+/*!40000 ALTER TABLE `task` DISABLE KEYS */;
+/*!40000 ALTER TABLE `task` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(256) NOT NULL,
+  `name` varchar(256) NOT NULL,
+  `password` varchar(256) NOT NULL,
+  `role` enum('admin','user','guest') NOT NULL DEFAULT 'user',
+  `userCode` varchar(64) DEFAULT NULL,
+  `departmentId` int(11) DEFAULT NULL,
+  `companyId` int(11) DEFAULT NULL,
+  `parentId` int(11) DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `isValid` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'neinnil09@gmail.com','Admin','*4ACFE3202A5FF5CF467898FC58AAB1D615029441','admin','USER_0001',1,1,NULL,'2018-11-08 10:57:35','0000-00-00 00:00:00',1),(2,'guest@gmail.com','Guest','*11DB58B0DD02E290377535868405F11E4CBEFF58','guest','USER_0002',1,1,NULL,'2018-11-08 10:57:35','0000-00-00 00:00:00',1),(3,'psj@example.com','박상준','*A4B6157319038724E3560894F7F932C8886EBFCF','user','',1,1,NULL,'2018-11-08 10:59:15','2018-11-08 11:03:35',1),(4,'kimsoo@example.com','김일수','*A4B6157319038724E3560894F7F932C8886EBFCF','user','',1,1,NULL,'2018-11-08 11:03:26','2018-11-08 11:03:42',1),(5,'leesoo@example.com','이수인','*0801D10217B06C5A9F32430C1A34E030D41A0257','user','',1,1,NULL,'2018-11-08 11:04:14','2018-11-08 11:04:23',1),(6,'leeyeon@test.com','이수연','*A4B6157319038724E3560894F7F932C8886EBFCF','user','',1,1,NULL,'2018-11-08 11:05:03','2018-11-08 11:05:10',1),(7,'joe@example.com','조인상','*A4B6157319038724E3560894F7F932C8886EBFCF','user','',1,1,NULL,'2018-11-08 12:47:49','2018-11-08 12:47:57',1);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-11-10  2:56:44
