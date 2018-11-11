@@ -173,13 +173,13 @@ export default {
 				if (response.data.error) {
 					console.log("get list error", response.data.message);	
 					self.errorMessage = response.data.message;	
+					setTimeout(function() {self.clearMessage();}, 1000);
 				} else {
 					console.log("get list success", response.data.message);	
-					self.successMessage = response.data.message;	
+					//self.successMessage = response.data.message;	
 					self.projects = response.data.projects;
 					console.log("Count: ", response.data.count);
 				}
-				setTimeout(function() {self.clearMessage();}, 1000);
 			});
 		},
 		updateProject: function () {

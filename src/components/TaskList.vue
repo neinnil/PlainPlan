@@ -21,6 +21,7 @@
 						<div class="tbcell">ID</div>
 						<div class="tbcell">WBS</div>
 						<div class="tbcell" style="min-width:10em;">Task</div>
+						<div class="tbcell"> Progress</div>
 						<div class="tbcell">Duration</div>
 						<div class="tbcell" style="min-width:8em;">Start</div>
 						<div class="tbcell" style="min-width:8em;">End</div>
@@ -36,9 +37,12 @@
 						<div class="tbcell" > {{task.id}}</div>	
 						<div class="tbcell" > {{task.wbs}}</div>	
 						<div class="tbcell" > {{task.name}} </div>	
-						<div class="tbcell" > {{task.duration}}</div>	
-						<div class="tbcell" > {{toDateString2(task.start)}}</div>	
-						<div class="tbcell" > {{toDateString2(task.end)}}</div>	
+						<div class="tbcell" > 
+								<input type="text" v-model="task.progress" v-on:change="updateTask(task)" />
+						</div>
+						<div class="tbcell" > {{toDurationString(task.duration)}}</div>	
+						<div class="tbcell" > {{toDateString(task.start)}}</div>	
+						<div class="tbcell" > {{toDateString(task.end)}}</div>	
 						<!--
 						<div class="tbcell" > {{task.assigneeId}}</div>	
 						<div class="tbcell" > {{task.precedenceTasks}}</div>	
@@ -84,15 +88,9 @@ export default {
 		}
 	},
 	computed: {
-		projname: function () {
-			return "Dummy Project"
-		},
 	},
 	watch: {
-			duratoin: function () {
-				this.taskitem.duration = this.duration;
-			}
-	},
+	}, 
 	mounted: function (){
 		console.log("Mounted");
 		this.getAllTasks();
@@ -108,15 +106,42 @@ export default {
 				if (response.data.error) {
 					console.log("read error", response.data.message);	
 					self.errorMessage = response.data.message;	
+					setTimeout(function() {self.clearMessage();}, 1000);
 				} else {
 					console.log("read success", response.data.message);	
-					self.successMessage = response.data.message;	
+					//self.successMessage = response.data.message;	
 					self.tasks = response.data.tasks;
 					self.convertDate();
 					self.updateGantt();
 				}
-				setTimeout(function() {self.clearMessage();}, 1000);
 			});
+		},
+		updateTask: function (task) {
+			var self = this;
+			if (this.showGanttChart && this.bInitGantt ) {
+				this.updateGantt();
+			}
+			var apiuri = String.prototype.concat(location.origin,baseURL, '/api/tasks.php','?action=update');
+			var data = {
+				'id': task.id,
+				'name' : task.name,
+				'startDate': this.toDateString(task.start),
+				'endDate': this.toDateString(task.end),
+				'duration': this.durToDB(task.start, task.end),
+				'progress': task.progress,
+			};
+			var formData = this.toFormData(data);
+			this.axios.post (apiuri, formData)
+				.then(function (response) {
+						console.log(response);
+						if (response.data.error) {
+							self.errorMessage = response.data.message;
+						} else {
+							self.successMessage = response.data.message;
+						}
+						setTimeout(function(){self.clearMessage();}, 1000);
+						self.$emit('updateResult', response.data);
+				});
 		},
 
 		convertDate() {
@@ -128,7 +153,17 @@ export default {
 			});
 		},
 
+		durToDB: function (start, end) {
+				var durInSec = Math.floor((end-start)/1000);
+				var day = Math.floor(durInSec/(24*3600))+1;
+				var dHour = Math.floor(durInSec/3600);
+				var dMin = Math.floor( (durInSec % 3600) / 60);
+				var dSec = durInSec%60;
+				return "PT"+dHour+"H"+dMin+"M"+dSec+"S";
+			},
+
 		initGantt () {
+			var self = this;
 			this.ganttChart = new Gantt ("#ganttView", this.tasks, {
 					on_click: function (task) {
 						console.log(task);
@@ -138,13 +173,14 @@ export default {
           },
           on_progress_change: function (task, progress) {
             console.log(task, progress);
+						self.updateTask(task);
           },
           on_view_change: function (mode) {
             console.log(mode);
           },
           view_mode: 'Day',
           header_height: 40,
-          bar_height: 20,
+          bar_height: 16,
           date_format: 'YYYY-MM-DD',
           language: 'ko',
           step: 24,
@@ -177,17 +213,7 @@ export default {
 			this.errorMessage = "";
 			this.successMessage = "";
 		},
-		toDateString: function () {
-			this.taskitem.startDate = this.projtoDateFormat(this.taskitem.start);
-			this.taskitem.endDate = this.projtoDateFormat(this.taskitem.end);
-		},
-		projtoDateFormat: function (val) {
-			var year = val.getFullYear();
-			var month = val.getMonth() + 1;
-			var days = val.getDate();
-			return  year+'-'+month+'-'+days;
-		},
-		toDateString2: function (obj) {
+		toDateString: function (obj) {
 			if (obj instanceof Date) {
 				var year = obj.getFullYear();
 				var month = obj.getMonth() + 1;
@@ -197,30 +223,15 @@ export default {
 				return obj;
 			}
 		},
-  }
+		toDurationString: function (obj) {
+				var reg=/\D/;
+				var arr = obj.split(reg);
+				var days = Math.floor(arr[2]/24);
+				var hour = Math.floor(arr[2]%24);
+				return days+'일';
+		},
+  },
 }
-/***
-var	ganttChart =  new Gantt("#ganttView", projApp.tasks, {
-		on_click: function (task) {
-			console.log(task);
-		},
-		on_date_change: function(task, start, end) {
-			console.log(task, start, end);
-		},
-		on_progress_change: function (task, progress) {
-			console.log(task, progress);
-		},
-		on_view_change: function (mode) {
-			console.log(mode);
-		},
-		view_mode: 'Week',
-		header_height: 40,
-		bar_height: 20,
-		date_format: 'YYYY-MM-DD',
-		language: 'ko',
-		step: 12,
-	});
-***/
 </script>
 <style>
 @import '../styles/spms_base.css';

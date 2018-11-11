@@ -25,7 +25,7 @@
 			$where = " and taskId=$taskId ";
 		}
 
-		$query="select id, name, projectId, parentId, taskId, parentTaskId, upTaskId, downTaskId, level, wbs, assigneeId, startDate as start, endDate as end, duration, actualStartDate, actualEndDate, precedenceTasks, successorTasks, isMilestone, isTaskGroup, isValid, note from task $where;";
+		$query="select id, name, projectId, parentId, taskId, parentTaskId, upTaskId, downTaskId, level, wbs, assigneeId, startDate as start, endDate as end, duration, actualStartDate, actualEndDate, precedenceTasks, successorTasks, isMilestone, isTaskGroup, isValid,progress, note from task $where;";
 
 		$result = $db->query($query);
 		if( $result && $result->num_rows>=0){
@@ -58,6 +58,7 @@
 		"startDate" => $_POST['startDate'],
 		"endDate" => $_POST['endDate'],
 		"duration" => $_POST['duration'],
+		"progress" => $_POST["progress"],
 		"actualStartDate" => $_POST['actualStartDate'],
 		"actualEndDate" => $_POST['actualEndDate'],
 		"precedenceTasks" => $_POST['precedenceTasks'],
@@ -93,9 +94,7 @@
 		"level" => $_POST["level"],
 		"wbs" => $_POST["wbs"],
 		"assigneeId" => $_POST["assigneeId"],
-		"startDate" => $_POST["startDate"],
-		"endDate" => $_POST["endDate"],
-		"duration" => $_POST["duration"],
+		"progress" => $_POST["progress"],
 		"actualStartDate" => $_POST["actualStartDate"],
 		"actualEndDate" => $_POST["actualEndDate"],
 		"precedenceTasks" => $_POST["precedenceTasks"],

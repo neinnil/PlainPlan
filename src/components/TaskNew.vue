@@ -186,28 +186,6 @@ export default {
 		},
   },
 }
-/***
-var	ganttChart =  new Gantt("#ganttView", projApp.tasks, {
-		on_click: function (task) {
-			console.log(task);
-		},
-		on_date_change: function(task, start, end) {
-			console.log(task, start, end);
-		},
-		on_progress_change: function (task, progress) {
-			console.log(task, progress);
-		},
-		on_view_change: function (mode) {
-			console.log(mode);
-		},
-		view_mode: 'Week',
-		header_height: 40,
-		bar_height: 20,
-		date_format: 'YYYY-MM-DD',
-		language: 'ko',
-		step: 12,
-	});
-***/
 </script>
 <style>
 @import '../styles/spms_base.css';

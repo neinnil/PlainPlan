@@ -10,9 +10,9 @@ h4{ font-size: 14px; }
 .center {margin:auto; width: 40%; border: 1px solid #bbbbdd; padding: 10px;}
 .middle {margin-top: 10%}
 .ttable{display: table; table-layout:fixed; padding:3px}
-.tbrow{display: table-row;}
+.tbrow{display: table-row; min-height:34px;}
 .tbrow.head{background-color: #dddddd;}
-.tbcell{display: table-cell; padding: 5px; border: none;}
+.tbcell{display: table-cell; padding: 6px 3px 6px 3px; border: none;}
 .solbox{border: 1px solid;}
 .tbcell.colspan {display: none; }
 .tbbody{display: table-row-group;}
