@@ -133,7 +133,7 @@
 		<div class="tbrow" id="work-note-list" v-else-if="mode==='list'">
 				<div class="tbcell"> {{worknote.id}} </div>
 				<div class="tbcell"> {{worknote.writername}} </div>
-				<div class="tbcell"> {{worknote.projectname}} </div>
+				<div class="tbcell"> {{worknote.projectCode}} </div>
 				<div class="tbcell"> {{worknote.taskname}} </div>
 				<div class="tbcell"> {{worknote.workingtime}} </div>
 				<div class="tbcell" style="min-width:20em;"> {{worknote.today}} </div>
