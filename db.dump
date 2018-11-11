@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.1.26-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.16  Distrib 10.3.10-MariaDB, for osx10.14 (x86_64)
 --
 -- Host: localhost    Database: spmsdb
 -- ------------------------------------------------------
--- Server version	10.1.26-MariaDB-0+deb9u1
+-- Server version	10.3.10-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -27,8 +27,8 @@ CREATE TABLE `activities` (
   `userid` int(11) DEFAULT NULL,
   `type` tinyint(4) DEFAULT NULL,
   `typename` varchar(128) DEFAULT NULL,
-  `content` text,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `content` text DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -59,9 +59,9 @@ CREATE TABLE `attachment` (
   `backupPath` varchar(4096) DEFAULT NULL,
   `tableName` varchar(256) DEFAULT NULL,
   `type` smallint(6) DEFAULT NULL,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -87,11 +87,11 @@ CREATE TABLE `calendar` (
   `name` varchar(256) NOT NULL,
   `projectId` int(11) DEFAULT NULL,
   `parentId` int(11) DEFAULT NULL,
-  `weekdays` text,
-  `exceptions` text,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `weekdays` text DEFAULT NULL,
+  `exceptions` text DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -116,9 +116,9 @@ CREATE TABLE `company` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) NOT NULL,
   `companyCode` varchar(64) DEFAULT NULL,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `companyCode` (`companyCode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -130,7 +130,7 @@ CREATE TABLE `company` (
 
 LOCK TABLES `company` WRITE;
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
-INSERT INTO `company` VALUES (1,'company A','COMP_0001','2018-11-08 10:57:35','0000-00-00 00:00:00',1);
+INSERT INTO `company` VALUES (1,'company A','COMP_0001','2018-11-10 04:56:13','0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `company` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,9 +147,9 @@ CREATE TABLE `department` (
   `departmentCode` varchar(64) DEFAULT NULL,
   `companyId` int(11) DEFAULT NULL,
   `parentId` int(11) DEFAULT NULL,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `departmentCode` (`departmentCode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -161,7 +161,7 @@ CREATE TABLE `department` (
 
 LOCK TABLES `department` WRITE;
 /*!40000 ALTER TABLE `department` DISABLE KEYS */;
-INSERT INTO `department` VALUES (1,'Lab A','DEPT_001',1,NULL,'2018-11-08 10:57:35','0000-00-00 00:00:00',1);
+INSERT INTO `department` VALUES (1,'Lab A','DEPT_001',1,NULL,'2018-11-10 04:56:13','0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `department` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,22 +182,22 @@ CREATE TABLE `issues` (
   `assigneeId` int(11) DEFAULT NULL,
   `duedate` datetime DEFAULT NULL,
   `title` tinytext NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
   `severity` tinyint(4) DEFAULT NULL,
   `priority` tinyint(4) DEFAULT NULL,
-  `tag` text,
-  `attachements` text,
+  `tag` text DEFAULT NULL,
+  `attachements` text DEFAULT NULL,
   `closeddate` datetime DEFAULT NULL,
-  `rootCause` text,
-  `response` text,
-  `comment` text,
-  `prevent` text,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `rootCause` text DEFAULT NULL,
+  `response` text DEFAULT NULL,
+  `comment` text DEFAULT NULL,
+  `prevent` text DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +206,6 @@ CREATE TABLE `issues` (
 
 LOCK TABLES `issues` WRITE;
 /*!40000 ALTER TABLE `issues` DISABLE KEYS */;
-INSERT INTO `issues` VALUES (1,'',NULL,1,0,4,0,'0000-00-00 00:00:00','한글 제목','이슈 내용 ',1,3,2,NULL,NULL,'0000-00-00 00:00:00','',NULL,NULL,NULL,'2018-11-08 10:58:11','2018-11-08 13:41:02',1),(2,'',NULL,2,0,4,6,'0000-00-00 00:00:00','버그 1. safari에서 사용자 선택이 이상하다.','사용자 찾기 관련 문제, 입력 창에 값을 갱신하지 않는다.',1,3,2,NULL,NULL,'0000-00-00 00:00:00','',NULL,NULL,NULL,'2018-11-08 11:07:34','2018-11-08 13:41:11',1),(3,'',NULL,22,0,3,3,'0000-00-00 00:00:00','아이폰에서 화면 이상','이건 아이폰에서 올린 글. \r\n날짜 선택란이 다은 칸에 겹쳐 보인다. ',2,0,0,NULL,NULL,'0000-00-00 00:00:00','',NULL,NULL,NULL,'2018-11-09 12:04:55','0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `issues` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,11 +220,11 @@ CREATE TABLE `location` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) NOT NULL,
   `parentId` int(11) DEFAULT NULL,
-  `address` text,
-  `specData` text,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `address` text DEFAULT NULL,
+  `specData` text DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -251,12 +250,12 @@ CREATE TABLE `material` (
   `name` varchar(256) NOT NULL,
   `partno` varchar(256) NOT NULL,
   `type` varchar(64) DEFAULT NULL,
-  `specData` text,
+  `specData` text DEFAULT NULL,
   `parentId` int(11) DEFAULT NULL,
   `taskId` int(11) DEFAULT NULL,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -287,17 +286,17 @@ CREATE TABLE `note` (
   `departmentId` int(11) DEFAULT NULL,
   `writer` int(11) DEFAULT NULL,
   `workingtime` time DEFAULT NULL,
-  `today` text,
-  `nextday` text,
-  `attachedObjs` text,
+  `today` text DEFAULT NULL,
+  `nextday` text DEFAULT NULL,
+  `attachedObjs` text DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `revision` int(11) DEFAULT NULL,
   `type` tinyint(4) DEFAULT NULL,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,7 +305,6 @@ CREATE TABLE `note` (
 
 LOCK TABLES `note` WRITE;
 /*!40000 ALTER TABLE `note` DISABLE KEYS */;
-INSERT INTO `note` VALUES (1,'prj1_test 1_note',1,1,NULL,2,NULL,2,'08:00:00','Test... Today ','Next Day... ',NULL,NULL,NULL,NULL,'2018-11-09 13:07:45','0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `note` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,9 +323,9 @@ CREATE TABLE `progIndicators` (
   `taskId` int(11) DEFAULT NULL,
   `modifier` int(11) DEFAULT NULL,
   `value` tinyint(4) DEFAULT NULL,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -353,7 +351,7 @@ CREATE TABLE `project` (
   `name` varchar(256) NOT NULL,
   `projectCode` varchar(64) NOT NULL,
   `parentId` int(11) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   `actualStartDate` date DEFAULT NULL,
@@ -365,9 +363,9 @@ CREATE TABLE `project` (
   `numbOfTasks` smallint(5) unsigned DEFAULT NULL,
   `numbOfRealTasks` smallint(5) unsigned DEFAULT NULL,
   `estimatedCost` int(11) DEFAULT NULL,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -378,7 +376,7 @@ CREATE TABLE `project` (
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
-INSERT INTO `project` VALUES (1,'SPMS DEV','18SI0100',0,'Project Management System.\r\nVue Project','2018-09-20','2019-01-31',NULL,NULL,0,0,0,NULL,NULL,NULL,NULL,'2018-11-08 13:15:02','2018-11-10 02:21:59',1),(2,'spms alpha','18si0101',0,'SPMS alpha version \r\nDelayed','2018-09-20','2018-11-01',NULL,NULL,0,0,0,NULL,NULL,NULL,NULL,'2018-11-08 13:16:11','2018-11-10 02:29:39',1);
+INSERT INTO `project` VALUES (1,'PMS','Dev0001',NULL,'PMS 개발 (Web interface)','2018-09-20','2019-01-31',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2018-11-10 07:22:21','0000-00-00 00:00:00',1),(2,'TestPRoj','23432',NULL,'Test.. Project','2018-11-11','2018-11-16',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2018-11-10 18:58:38','0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -401,9 +399,9 @@ CREATE TABLE `resources` (
   `amount` int(11) DEFAULT NULL,
   `cost` int(11) DEFAULT NULL,
   `overtimeCost` int(11) DEFAULT NULL,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -434,23 +432,24 @@ CREATE TABLE `task` (
   `upTaskId` int(11) DEFAULT NULL,
   `downTaskId` int(11) DEFAULT NULL,
   `level` tinyint(4) DEFAULT NULL,
-  `wbs` tinytext,
+  `wbs` tinytext DEFAULT NULL,
   `assigneeId` int(11) DEFAULT NULL,
-  `startDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `startDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `endDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `duration` datetime DEFAULT NULL,
+  `duration` varchar(32) DEFAULT NULL,
   `actualStartDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `actualEndDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `precedenceTasks` text,
-  `sucessorTasks` text,
-  `isMilestone` tinyint(4) DEFAULT NULL,
+  `precedenceTasks` text DEFAULT NULL,
+  `successorTasks` text DEFAULT NULL,
+  `isMilestone` varchar(8) DEFAULT NULL,
   `isTaskGroup` tinyint(4) DEFAULT NULL,
-  `note` text,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `note` text DEFAULT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
+  `progress` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -459,6 +458,7 @@ CREATE TABLE `task` (
 
 LOCK TABLES `task` WRITE;
 /*!40000 ALTER TABLE `task` DISABLE KEYS */;
+INSERT INTO `task` VALUES (1,'개념 설계',1,NULL,NULL,NULL,NULL,NULL,NULL,'1',NULL,'2018-09-19 15:00:00','2018-09-26 15:00:00','PT168H0M0S','0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL,'false',NULL,NULL,'2018-11-10 16:49:36','2018-11-11 04:12:44',1,100),(2,'Proj2. Task1',1,NULL,NULL,NULL,NULL,NULL,NULL,'1',NULL,'2018-11-10 15:00:00','2018-11-22 15:00:00','PT277H9M3S','0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL,'false',NULL,'Test','2018-11-10 19:43:20','2018-11-11 03:57:35',1,34),(3,'proj 1sd',1,NULL,NULL,NULL,NULL,NULL,NULL,'2.1',NULL,'2018-11-11 15:00:00','2018-11-14 15:00:00','PT72H0M0S','0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL,'false',NULL,'dfsdf','2018-11-10 19:46:09','0000-00-00 00:00:00',1,0),(4,'2.Task1',1,NULL,NULL,NULL,NULL,NULL,NULL,'1',NULL,'2018-11-11 15:00:00','2018-11-13 15:00:00','PT48H0M0S','0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL,'false',NULL,'sdfadf','2018-11-10 19:47:49','0000-00-00 00:00:00',1,0),(5,'Proj 2 - Task 1',2,NULL,NULL,NULL,NULL,NULL,NULL,'1',NULL,'2018-11-11 15:00:00','2018-11-20 15:00:00','PT216H0M0S','0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL,'false',NULL,'Test.','2018-11-10 19:53:51','0000-00-00 00:00:00',1,0),(6,'Task 2',2,NULL,NULL,NULL,NULL,NULL,NULL,'2',NULL,'2018-11-18 15:00:00','2018-11-22 15:00:00','PT96H0M0S','0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL,'false',NULL,NULL,'2018-11-11 00:47:23','0000-00-00 00:00:00',1,0),(7,'가지고가자',2,NULL,NULL,NULL,NULL,NULL,NULL,'2.1',NULL,'2018-11-18 15:00:00','2018-11-20 15:00:00','PT48H0M0S','0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL,'false',NULL,'쌓아놓은 일','2018-11-11 00:48:25','0000-00-00 00:00:00',1,0);
 /*!40000 ALTER TABLE `task` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -479,11 +479,11 @@ CREATE TABLE `users` (
   `departmentId` int(11) DEFAULT NULL,
   `companyId` int(11) DEFAULT NULL,
   `parentId` int(11) DEFAULT NULL,
-  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `isValid` tinyint(4) DEFAULT '1',
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modifiedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `isValid` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -492,7 +492,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'neinnil09@gmail.com','Admin','*4ACFE3202A5FF5CF467898FC58AAB1D615029441','admin','USER_0001',1,1,NULL,'2018-11-08 10:57:35','0000-00-00 00:00:00',1),(2,'guest@gmail.com','Guest','*11DB58B0DD02E290377535868405F11E4CBEFF58','guest','USER_0002',1,1,NULL,'2018-11-08 10:57:35','0000-00-00 00:00:00',1),(3,'psj@example.com','박상준','*A4B6157319038724E3560894F7F932C8886EBFCF','user','',1,1,NULL,'2018-11-08 10:59:15','2018-11-08 11:03:35',1),(4,'kimsoo@example.com','김일수','*A4B6157319038724E3560894F7F932C8886EBFCF','user','',1,1,NULL,'2018-11-08 11:03:26','2018-11-08 11:03:42',1),(5,'leesoo@example.com','이수인','*0801D10217B06C5A9F32430C1A34E030D41A0257','user','',1,1,NULL,'2018-11-08 11:04:14','2018-11-08 11:04:23',1),(6,'leeyeon@test.com','이수연','*A4B6157319038724E3560894F7F932C8886EBFCF','user','',1,1,NULL,'2018-11-08 11:05:03','2018-11-08 11:05:10',1),(7,'joe@example.com','조인상','*A4B6157319038724E3560894F7F932C8886EBFCF','user','',1,1,NULL,'2018-11-08 12:47:49','2018-11-08 12:47:57',1);
+INSERT INTO `users` VALUES (1,'nein09@gmail.com','Admin','*4ACFE3202A5FF5CF467898FC58AAB1D615029441','admin','USER_0001',1,1,NULL,'2018-11-10 04:56:13','2018-11-10 07:31:42',1),(2,'guest@gmail.com','Guest','*11DB58B0DD02E290377535868405F11E4CBEFF58','guest','USER_0002',1,1,NULL,'2018-11-10 04:56:13','0000-00-00 00:00:00',1),(3,'sjpark0820@sntek.com','박상준','*0801D10217B06C5A9F32430C1A34E030D41A0257','user','',1,1,NULL,'2018-11-10 07:10:29','0000-00-00 00:00:00',1),(4,'hone@ex.com','홍술일','*0801D10217B06C5A9F32430C1A34E030D41A0257','user','null',1,1,NULL,'2018-11-10 07:54:01','2018-11-10 07:54:46',1),(5,'joi@ex.com','조일','11','user','null',1,1,NULL,'2018-11-10 07:56:09','2018-11-10 07:56:17',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -505,4 +505,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-10  2:56:44
+-- Dump completed on 2018-11-11 13:14:29
