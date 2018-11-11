@@ -54,7 +54,7 @@
 			<TaskNew :projectId="projid" v-on:updateResult="resultOfNewTask($event);"/>
 		</div>
 		<div v-else>
-			<TaskList :projectId="projid"/>
+			<TaskList :projectId="projid" :showGanttChart="true"/>
 		</div>
 
  </div>
