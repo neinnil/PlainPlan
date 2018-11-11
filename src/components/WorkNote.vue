@@ -72,8 +72,10 @@
 					<div class="tbcell"> </div>
 				</div>
 				<div class="tbbody">
-				<work-note-item v-for="item in worknoteitems" :key="item.id" :mode="mode"
-					:worknote="item" 
+				<work-note-item v-for="item in worknoteitems" 
+						:key="item.id" 
+						:mode="mode"
+						:worknote="item" 
 					v-on:updateworknote="updateWorkNote($event)"
 					v-on:deleteworknote="deleteWorkNote($event)"
 					> </work-note-item>
@@ -97,10 +99,7 @@ export default {
 	data () {
 		return {
 			worknoteitems:[],
-			projects: [
-					{id: 1, code: 'sn18xx0', name:'prj1', tasks: [ {id: 1, name: 'test 1',}, {id: 2, name: 'test 2'}] }, 
-					{id: 2, code: 'sn18xx1', name:'prj2', tasks: [ {id: 1, name: 'projtest 1'}, {id: 2, name: 'projtest 2'}, {id: 3, name: 'submarine'}]}
-				 ],
+			projects: [],
 			successMessage: '',
 			errorMessage: '',
 			mode: 'list',
@@ -114,13 +113,28 @@ export default {
 	},
 	watch: {
 	},
-	mounted: function (){
+	mounted: function () {
 		console.log("Mounted");
 		if (this.mode == 'list') {
 			this.getWorkNoteItems();
 		}
+		this.initProj();
 	},
   methods: {
+		initProj: function() {
+			var self = this;
+			var apiuri = String.prototype.concat(location.origin, baseURL, '/api/project.php','?action=read');
+			this.axios.get(apiuri)
+				.then( function (response) {
+						if(response.data.error) {
+							self.errorMessage = response.data.message;
+							setTimeout(function() {self.clearMessage();}, 1000 );
+						} else {
+							self.projects = response.data.projects;
+						}
+			});
+		},
+
 		updateWorkNote: function (obj) {
 			console.log("updateWorkNote... ");
 			console.log(obj);

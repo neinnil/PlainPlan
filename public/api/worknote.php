@@ -26,8 +26,9 @@
 			$where = " and taskId=$taskId ";
 		}
 
-		$query="select id, name, projectId, taskId, userId, writer, workingtime, today, nextday, attachedObjs, parentId, status, revision, type, createdDate, modifiedDate, isValid from $tableName $where;";
+//		$query="select id, name, projectId, taskId, userId, writer, workingtime, today, nextday, attachedObjs, parentId, status, revision, type, createdDate, modifiedDate, isValid from $tableName $where;";
 
+		$query = "select n.* , u.name as writername, prj.name as projectname, t.name as taskname from note as n left join users as u on (n.writer = u.id) left join project as prj on (n.projectId = prj.id) left join task as t on (n.taskId = t.id) $where; ";
 		$result = $db->query($query);
 		if( $result && $result->num_rows>0){
 			$notes = array();

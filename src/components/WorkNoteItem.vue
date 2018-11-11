@@ -132,9 +132,9 @@
 		
 		<div class="tbrow" id="work-note-list" v-else-if="mode==='list'">
 				<div class="tbcell"> {{worknote.id}} </div>
-				<div class="tbcell"> {{worknote.writer.name}} </div>
-				<div class="tbcell"> {{worknote.projectId}} </div>
-				<div class="tbcell"> {{worknote.taskId}} </div>
+				<div class="tbcell"> {{worknote.writername}} </div>
+				<div class="tbcell"> {{worknote.projectname}} </div>
+				<div class="tbcell"> {{worknote.taskname}} </div>
 				<div class="tbcell"> {{worknote.workingtime}} </div>
 				<div class="tbcell" style="min-width:20em;"> {{worknote.today}} </div>
 				<div class="tbcell" style="min-width:20em;"> {{worknote.nextday}} </div>
@@ -177,7 +177,11 @@ export default {
 			today: '',
 			nextday: '',
 			workingtime: 8,
+			writername: '',
+			projectnae: '',
+			taskname: '',
 			tasks: [],
+			project: {},
 		}
 	},
 	computed: {
@@ -187,10 +191,11 @@ export default {
 	},
 	watch: {
 		projectId: function (pid) {
-			var idx = this.projects.findIndex( (element)=> {
-				return (element.id == pid);
-			} );
-			this.tasks = this.projects[idx].tasks;
+			var pidx = this.projects.findIndex( (el)=> {
+					return (el.id == this.pid);
+				});
+			this.project = this.projects[pidx];
+			this.getTasks();
 		},
 		taskId: function (tid) {
 			var pidx = this.projects.findIndex( (el)=> {
@@ -213,13 +218,26 @@ export default {
 			this.today = this.worknote.today;
 			this.nextday = this.worknote.nextday;
 			this.workingtime = this.worknote.workingtime;
-			var idx = this.projects.findIndex( (el)=> {
-				return (el.id == this.projectId);
-			} );
-			this.tasks = this.projects[idx].tasks;
+			this.writername= this.worknote.writername;
+			this.projectname = this.worknote.projectname;
+			this.taskname = this.worknote.taskname;
+			this.getTasks();
 		}
   },
 	methods: {
+		getTasks: function () {
+			var self = this;
+			var apiuri = String.prototype.concat(location.origin,baseURL, '/api/tasks.php','?action=read&projectId=',this.projectId);
+			this.axios.get(apiuri)
+				.then(function (response) {
+						if(response.data.error) {
+							self.errorMessage = response.data.message;
+							setTimeout(function(){self.clearMessage();},1000);
+						} else {
+							self.tasks = response.data.tasks;
+						}
+				});
+		},
 		saveWorkNoteItem: function () {
 			var self = this;
 			var apiuri = String.prototype.concat(location.origin, baseURL, '/api/worknote.php', '?action=create');
@@ -246,7 +264,7 @@ export default {
 			var apiuri = String.prototype.concat(location.origin, baseURL, '/api/worknote.php', '?action=delete');
 			var data = {
 					'id': obj.id,
-					'writer': obj.writer.id,
+					'writer': obj.writer,
 					'userId': obj.userId,
 					'projectId': obj.projectId,
 					'taskId': obj.taskId,
@@ -267,7 +285,7 @@ export default {
 			var apiuri = String.prototype.concat(location.origin, baseURL, '/api/worknote.php', '?action=update');
 			var data = {
 					'id' : obj.id,
-					'writer': obj.writer.id,
+					'writer': obj.writer,
 					'userId': obj.userId,
 					'projectId': obj.projectId,
 					'taskId': obj.taskId,
