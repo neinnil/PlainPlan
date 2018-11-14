@@ -8,12 +8,11 @@
 			{{successMessage}}
 		</p>
 	</div>
-	<button @click="mode='list'">List</button>
-	<button @click="mode='create'">Create</button>
-	<button @click="mode='view'">View</button>
-	<button @click="mode='edit'">edit</button>
+	<button class="nil" @click="mode='list'">List</button>
+	<button class="nil" @click="mode='create'">Create</button>
+	<button class="nil" @click="mode='view'">View</button>
+	<button class="nil" @click="mode='edit'">edit</button>
 	<div id="IssueItem_list" v-if="mode==='list'">
-		<div>List</div>
 		<div class="ttable">
 			<div class="tbrow head">
 				<div class="tbcell"></div>	
@@ -75,13 +74,8 @@ export default {
 			default: loginUser,
 		},
 		project: {
-			type: Object,
-			default () {
-				return {
-					code: '18si0100',
-					name: 'SPMS',
-				}
-			},
+			type: [Object, Number],
+			default: null,
 		},
 	},
 	data () { 
@@ -107,6 +101,13 @@ export default {
 		getlistofissue: function () {
 			var self = this;
 			var apiuri = String.prototype.concat(location.origin, baseURL, '/api/issue.php', '?action=read');
+			if (this.project) {
+				if (typeof(this.project) === Number) {
+					apiuri = apiuri.concat('&projectId=',this.project);
+				} else if (typeof(this.project) === Object) {
+					apiuri = apiuti.concat('&projectId=', this.project.id);
+				}
+			}
 			this.axios.get(apiuri)
 				.then( function (response) {
 					if (response.data.error) {

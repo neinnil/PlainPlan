@@ -1,4 +1,3 @@
-
 <template>
 	<div id="issuecreate" v-if="mode==='create'" style="width:100%;">
 	<div> <button @click="createIssue()"> 저장 </button> <button> 취소 </button> </div>
@@ -394,6 +393,7 @@ export default {
 			console.log(this.proirty);
 			var data = {
 				'userId': this.user.id,
+				'name': String.prototype.concat(this.project.id, '-',this.task.id, '-',this.dateTimeString(new Date())),
 				'projectId': this.project.id,
 				'taskId': this.task.id,
 				'assigneeId': this.assignee.id,

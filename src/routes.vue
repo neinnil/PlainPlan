@@ -15,11 +15,11 @@ var NotFoundPage = {
 export  default  [
 	{
 		path:'/index.html', 
-		component: ProjSummary
+		component: ProjectList
 	},
 	{
 		path:'/', 
-		component: ProjSummary
+		component: ProjectList
 	},
 	{
 		path:'/User', 

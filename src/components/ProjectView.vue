@@ -47,14 +47,22 @@
 				</div>
 			</div>
 		</div>
-		<div>
-		<button @click="addingTask=true;">새 작업 추가 </button>
+		<div class="fleft">
+		<button class="nil" @click="addingTask=true;">새 작업 추가 </button>
+		<button class="nil" @click="addingIssue=true;">새 이슈 추가 </button>
 		</div>
+		<div class="fright"></div>
+		<div class="clear"></div>
 		<div v-if="addingTask">
 			<TaskNew :projectId="projid" v-on:updateResult="resultOfNewTask($event);"/>
 		</div>
 		<div v-else>
 			<TaskList :projectId="projid" :showGanttChart="true"/>
+		</div>
+
+		<div >
+			<Issue :project="project"
+			></Issue>
 		</div>
 
  </div>
@@ -63,12 +71,17 @@
 <script>
 import TaskList from "./TaskList.vue"
 import TaskNew from "./TaskNew.vue"
-import Datepicker from 'vuejs-datepicker'
+import Issue from "./Issue.vue"
+import Datepicker from "vuejs-datepicker"
 
 export default {
   name: 'ProjectView',
 	props:{
 		projid: [Number,String],
+		writer: {
+			type: Object,
+			default: loginUser,
+		},
 	},
 	data () {
 			return {
@@ -81,6 +94,7 @@ export default {
 		'vuejs-datepicker': Datepicker,
 		TaskList,
 		TaskNew,
+		Issue,
 	},
 	mounted: function () {
 		console.log("projectView: ", this.projid);

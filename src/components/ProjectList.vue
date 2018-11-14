@@ -1,6 +1,8 @@
 <template>
   <div id="project-list" class="center" style="width:100%;">
-	  <h3>List of Projects</h3>
+	  <div class="fleft" style="padding:1em">
+			<h3>Projects</h3></div>
+		<div class="clear"> </div>
 		<div class="modal" v-if="errorMessage || successMessage">
 			<p class="errorMessage" v-if="errorMessage">
 				{{errorMessage}}

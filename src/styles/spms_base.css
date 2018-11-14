@@ -51,6 +51,9 @@ border-left: 5px solid #DA1527;
 padding: 9px;
 margin: 22px 0;
 }
+.nil {
+padding: 0px,1em,0px,1em;
+}
 
 .loginBtn {
 	width: 40%;

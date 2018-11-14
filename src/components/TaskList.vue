@@ -8,14 +8,10 @@
 				{{successMessage}}
 			</p>
 		</div>
-		<div v-if="showGanttChart">
-		<button @click="changeViewMode('Day');">Day</button>
-		<button @click="changeViewMode('Week');">Week</button>
-		<button @click="changeViewMode('Month');">Month</button>
-		</div>
 		<div class="ttable">
 			<div class="tbrow" style="display: flex;">
-			<div class="tbcell">
+			<div class="tbcell" style="max-width:50%; overflow:auto;">
+				<div v-if="showGanttChart">&nbsp;</div>
 				<div class="ttable">
 					<div class="tbrow head" style="height:50px"> 
 						<div class="tbcell">ID</div>
@@ -52,11 +48,16 @@
 						//-->
 					</div>
 				</div>
+				</div>
+				<div class="tbcell" style="max-width:50%; overflow:auto;" v-if="showGanttChart">
+					<div class="fleft">
+						<button style="padding-right:1em;" @click="changeViewMode('Day');">Day</button>
+						<button style="padding-right:1em;" @click="changeViewMode('Week');">Week</button>
+						<button style="padding-right:1em;" @click="changeViewMode('Month');">Month</button>
+					</div><div class="clear"></div>
+					<div class="gantt-target" id="ganttView" style="max-width:50%; overflow:auto;"></div>
+				</div>
 			</div>
-			<div class="tbcell">
-				<div class="gantt-target" id="ganttView"></div>
-			</div>
-		</div>
 		</div>
 	</div>
 </template>
