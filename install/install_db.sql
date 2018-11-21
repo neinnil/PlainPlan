@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS users (
 	isValid TINYINT DEFAULT 1
 ) engine=InnoDB default charset utf8 ;
 
-INSERT INTO users (name, email, password, role, userCode, departmentId, companyId) VALUES("Admin","neinnil09@gmail.com", PASSWORD("admin"),"admin", "USER_0001", 1,1);
-INSERT INTO users (name, email, password, role, userCode, departmentId, companyId) VALUES("Guest","guest@gmail.com", PASSWORD("guest"),"guest", "USER_0002", 1,1);
+INSERT INTO users (name, email, password, role, userCode, departmentId, companyId) VALUES("Admin","admin@@example.com", PASSWORD("admin"),"admin", "USER_0001", 1,1);
+INSERT INTO users (name, email, password, role, userCode, departmentId, companyId) VALUES("Guest","guest@example.com", PASSWORD("guest"),"guest", "USER_0002", 1,1);
 
 CREATE TABLE IF NOT EXISTS project (
 	id			INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
