@@ -28,7 +28,7 @@
 					<div class="tbcell">
 						<router-link :to="{name: 'ProjectView', params: {projid: proj.id }}">
 						{{proj.name}}
-						</router>
+						</router-link>
 					</div>
 					<div class="tbcell">{{proj.code}}</div>
 					<div class="tbcell">{{toDateString(proj.start)}}</div>
